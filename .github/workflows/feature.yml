@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
-      - run: pip install towncrier
-      - run: towncrier check
+          sparse-checkout: newsfragments
+      - uses: tj-actions/verify-changed-files@v17
+        id: verify-changed-files
+        with:
+          files: newsfragments/*
+      - if: steps.verify-changed-files.outputs.files_changed == 'false'
+        run: exit 1
