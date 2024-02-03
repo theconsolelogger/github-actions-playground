@@ -10,11 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: newsfragments
-      - run: /usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin remotes/origin/main
+      - run: git fetch origin main:main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11' 
       - run: pip install towncrier
-      - run: towncrier check --compare-with origin/main
+      - run: towncrier check --compare-with main
