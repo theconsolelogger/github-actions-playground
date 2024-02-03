@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
           sparse-checkout: newsfragments
-      - run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - run: git fetch origin ${{ github.event.base_ref }}:${{ github.event.base_ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
