@@ -11,9 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
+          sparse-checkout: newsfragments
+      - uses: tj-actions/verify-changed-files@v17
+        id: verify-changed-files
         with:
-          python-version: '3.11'
-      - run: pip install towncrier
-      - run: towncrier check --compare-with master
+          files: newsfragments/*
+      - if: steps.verify-changed-files.outputs.files_changed == 'false'
+        run: exit 1
