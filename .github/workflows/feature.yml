@@ -1,7 +1,7 @@
 name: Feature actions
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, ready_for_review]
     branches:
       - main
       - dev
@@ -9,6 +9,7 @@ on:
 jobs:
   Check-News-Fragment:
     runs-on: ubuntu-latest
+    if: ${{ ! github.event.pull_request.draft }}
     steps:
       - uses: actions/checkout@v4
         with:
