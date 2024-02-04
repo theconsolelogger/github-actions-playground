@@ -10,7 +10,7 @@ on:
 jobs:
   Check-News-Fragment:
     runs-on: ubuntu-latest
-    if: github.pull_request.draft == false
+    if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
         with:
