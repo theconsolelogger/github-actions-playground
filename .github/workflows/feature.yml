@@ -2,10 +2,10 @@ name: Feature actions
 on:
   pull_request:
     types: [opened, synchronize]
-    branches-ignore:
+    branches:
       - main
       - dev
-      - 'release/**'
+
 jobs:
   Check-News-Fragment:
     runs-on: ubuntu-latest
