@@ -2,7 +2,7 @@ name: Feature actions
 on:
   pull_request:
     types:
-      - synchronize
+      - ready_for_review
     branches-ignore:
       - main
       - dev
