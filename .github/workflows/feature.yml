@@ -2,7 +2,9 @@ name: Feature actions
 on:
   pull_request:
     types:
-      - ready_for_review
+      - opened
+      - reopened
+      - synchronize
     branches-ignore:
       - main
       - dev
