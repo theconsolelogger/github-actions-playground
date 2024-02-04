@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    'hello' => 'Hello, World!',
+];
