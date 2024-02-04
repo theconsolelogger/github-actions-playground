@@ -22,4 +22,4 @@ jobs:
               run: composer install
 
             - name: Laravel Pint
-              run: ./vendor/bin/pint --dirty --test
+              run: ./vendor/bin/pint --test
