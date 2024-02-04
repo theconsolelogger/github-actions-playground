@@ -1,25 +1,46 @@
 name: PHP Code Checks
 on:
-    pull_request:
-        types: [opened, synchronize, ready_for_review]
-        branches: [main, dev]
-        paths: '**/*.php'
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+    branches: [main, dev]
+    paths: '**/*.php'
 
 jobs:
-    Laravel_Pint:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  Laravel_Pint:
+    runs-on: ubuntu-latest
+    if: ${{ ! github.event.pull_request.draft }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Setup PHP
-              run: sudo apt-get install -y php libapache2-mod-php php-cli
+      - name: Setup PHP
+        run: sudo apt-get install -y php libapache2-mod-php php-cli
 
-            - name: Install Composer
-              run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      - name: Install Composer
+        run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-            - name: Install Dependencies
-              run: composer install
+      - name: Install Dependencies
+        run: composer install
 
-            - name: Laravel Pint
-              run: ./vendor/bin/pint --test
+      - name: Laravel Pint
+        run: ./vendor/bin/pint --test
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    if: ${{ ! github.event.pull_request.draft }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        run: sudo apt-get install -y php libapache2-mod-php php-cli
+
+      - name: Install Composer
+        run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+      - name: Install Dependencies
+        run: composer install
+
+      - name: PHPStan
+        run: ./vendor/bin/phpstan analyse --level=7 --no-progress
