@@ -1,0 +1,26 @@
+name: Feature actions
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches-ignore:
+      - main
+      - dev
+      - 'release/**'
+jobs:
+  Check-News-Fragment:
+    runs-on: ubuntu-latest
+    if: ${{ ! github.event.pull_request.draft }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: newsfragments
+      - run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install towncrier
+      - run: towncrier check --compare-with ${{ github.event.pull_request.base.ref }}
