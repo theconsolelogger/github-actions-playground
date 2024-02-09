@@ -1,0 +1,19 @@
+name: PR actions
+on:
+    pull_request:
+        types: [opened, ready_for_review]
+        branches-ignore: [main, dev]
+
+jobs:
+    assign_pr:
+        name: assign PR
+        runs-on: ubuntu-latest
+        if: github.event.pull_request.assignees == null
+        steps:
+            - name: Adding assignee
+              env:
+                PR_NUMBER: ${{ github.event.pull_request.number }}
+                PR_CREATOR: ${{ github.event.pull_request.user.login }}
+              run: |
+                curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST -d '{"assignees": ["${PR_CREATOR}"]}' 
+                https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/assignees
