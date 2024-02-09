@@ -18,3 +18,18 @@ jobs:
               run: |
                 echo "Assigning ${PR_CREATOR} to PR #${PR_NUMBER}"
                 curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST -d "{\"assignees\": [\"${PR_CREATOR}\"]}" https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/assignees
+
+    assign_reviewers:
+        name: assign reviewers
+        permissions:
+            pull-requests: write
+        runs-on: ubuntu-latest
+        if: ${{ (github.event.pull_request.requested_reviewers == null || github.event.pull_request.requested_reviewers.length == 0) && github.event.pull_request.draft == false }}
+        steps:
+            - name: Adding reviewers
+              env:
+                PR_NUMBER: ${{ github.event.pull_request.number }}
+                REVIEW_TEAM: "theconsolelogger"
+              run: |
+                echo "Assigning ${REVIEW_TEAM} to review PR #${PR_NUMBER}"
+                curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST -d "{\"reviewers\": [\"${REVIEW_TEAM}\"]}" https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/requested_reviewers
