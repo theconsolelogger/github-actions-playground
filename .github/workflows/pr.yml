@@ -8,7 +8,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Output assignees
-              run: echo "Assignees: ${{ github.event.pull_request.assignees }}"
+              run: |
+                echo "Assignees: ${{ github.event.pull_request.assignees }}"
 
     assign_pr:
         name: assign PR
