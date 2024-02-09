@@ -14,7 +14,7 @@ jobs:
     assign_pr:
         name: assign PR
         runs-on: ubuntu-latest
-        if: github.event.pull_request.assignees == null
+        if: ${{ github.event.pull_request.assignees == null || github.event.pull_request.assignees == [] }}
         steps:
             - name: Adding assignee
               env:
