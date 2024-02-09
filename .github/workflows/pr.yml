@@ -2,7 +2,6 @@ name: PR actions
 on:
     pull_request:
         types: [opened, ready_for_review]
-        branches-ignore: [main, dev]
 
 jobs:
     assign_pr:
