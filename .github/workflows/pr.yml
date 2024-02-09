@@ -6,6 +6,8 @@ on:
 jobs:
     assign_pr:
         name: assign PR
+        permissions:
+            pull-requests: write
         runs-on: ubuntu-latest
         if: ${{ github.event.pull_request.assignees == null || github.event.pull_request.assignees.length == 0 }}
         steps:
