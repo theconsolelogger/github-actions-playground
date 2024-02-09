@@ -4,13 +4,6 @@ on:
         types: [opened, ready_for_review]
 
 jobs:
-    output_assignees:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Output assignees
-              run: |
-                echo "Assignees: ${{ toJson(github.event.pull_request.assignees) }}"
-
     assign_pr:
         name: assign PR
         runs-on: ubuntu-latest
@@ -21,5 +14,4 @@ jobs:
                 PR_NUMBER: ${{ github.event.pull_request.number }}
                 PR_CREATOR: ${{ github.event.pull_request.user.login }}
               run: |
-                curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST -d '{"assignees": ["${PR_CREATOR}"]}' 
-                https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/assignees
+                curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST -d '{"assignees": ["${PR_CREATOR}"]}' https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/assignees
