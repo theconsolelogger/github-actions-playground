@@ -9,12 +9,12 @@ jobs:
         steps:
             - name: Output assignees
               run: |
-                echo "Assignees: ${{ github.event.pull_request.assignees }}"
+                echo "Assignees: ${{ toJson(github.event.pull_request.assignees) }}"
 
     assign_pr:
         name: assign PR
         runs-on: ubuntu-latest
-        if: ${{ github.event.pull_request.assignees == null || github.event.pull_request.assignees == [] }}
+        if: ${{ github.event.pull_request.assignees == null || github.event.pull_request.assignees.length == 0 }}
         steps:
             - name: Adding assignee
               env:
